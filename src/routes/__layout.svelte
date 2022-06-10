@@ -1,10 +1,25 @@
-<script lang="ts">
+<script context="module" lang="ts">
     import { itemsInCart} from "./stores/cart"
+    export async function load({ fetch }) {
+		const response = await fetch(`/api/cart`);
+
+		return {
+			status: response.status,
+			props: {
+				items: response.ok && (await response.json())
+			}
+		};
+	}
+</script>
+
+<script lang="ts">
+    export let items;
+    $: totalAmount = items.totalAmount;
 </script>
 
 <nav>
     <a href=".">HOME</a>
-    <a href="/cart" class="cart">Warenkorb {$itemsInCart} </a>
+    <a href="/cart" class="cart">Warenkorb {totalAmount} </a>
 </nav>
 
 

@@ -39,7 +39,7 @@
 		<div class="productinfo">
 			<h2>{shoe.shoeName}</h2>
 			<h3>{shoe.price} €</h3>
-			<form on:submit|preventDefault={addToCart}>
+			<form on:submit={addToCart}>
 				<div class="select">
 					<label for="sizeSelect">Größe</label>
 					<select bind:value={selectedShoeSize} id="sizeSelect" name="sizeSelect">
