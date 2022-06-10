@@ -21,12 +21,14 @@
 	let selectedAmount = 1;
 	let selectedShoeSize = shoe.shoesize[0];
 
-	function addToCart() {
+	async function addToCart() {
 		let selectedCartItem: CartItem = { shoe: shoe, amount: 0, size: 0 };
-		itemsInCart.update((n) => n + selectedAmount);
 		selectedCartItem.amount = selectedAmount;
 		selectedCartItem.size = selectedShoeSize;
-		cartContents.addCartItem(selectedCartItem);
+		const submit = await fetch(`/api/cart`, {
+			method: 'POST',
+			body: JSON.stringify(selectedCartItem)
+		});
 	}
 </script>
 
@@ -61,7 +63,6 @@
 				</div>
 				<button type="submit">Zum Warenkorb hinzufügen</button>
 			</form>
-			
 		</div>
 	</div>
 	<div class="productdescription">
