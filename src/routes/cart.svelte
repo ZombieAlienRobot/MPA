@@ -1,16 +1,13 @@
 <script context="module" lang="ts">
-	import { itemsInCart, cartContents, priceTotal } from './stores/cart';
 	import type { CartItem, Shoe } from 'src/types/types';
 
-	export async function load({ fetch, params }) {
-
+	export async function load({ fetch }) {
 		const response = await fetch(`/api/cart`);
-		
+
 		return {
 			status: response.status,
 			props: {
 				cartContent: response.ok && (await response.json())
-				
 			}
 		};
 	}
@@ -22,10 +19,12 @@
 	export const priceSum = cartContent.priceSum;
 	export const totalAmount = cartContent.totalAmount;
 
-	function emptyCart() {
-		cartContents.empyCart()
+	async function emptyCart() {
+		const submit = await fetch(`/api/cart`, {
+			method: 'DELETE'
+		});
+		console.log(priceSum);
 	}
-
 </script>
 
 <main>
@@ -35,7 +34,7 @@
 			<th>Artikel</th>
 			<th>Menge</th>
 			<th>Artikelpreis</th>
-            <th>Summe Artikel</th>
+			<th>Summe Artikel</th>
 		</tr>
 
 		{#each cartItemArray as item}
@@ -44,53 +43,53 @@
 				<td class="itemName"><b>{item.shoe.shoeName}, {item.size}</b></td>
 				<td class="itemQuantity">{item.amount}</td>
 				<td class="itemPrice">{item.shoe.price}</td>
-                <td class="sumItem">{item.shoe.price * item.amount}</td>
+				<td class="sumItem">{item.shoe.price * item.amount}</td>
 			</tr>
 		{/each}
 	</table>
-    <h3>Summe ({totalAmount} Artikel) {priceSum}€</h3>
-    <a href="/orderPage"><button on:click={emptyCart}>Bestellung aufgeben</button></a>
+	<h3>Summe ({totalAmount} Artikel) {priceSum}€</h3>
+	<a href="/orderPage"><button on:click={emptyCart}>Bestellung aufgeben</button></a>
 </main>
 
 <style>
-    table {
-        margin-top: 2rem;
-        border-spacing: 0;
-    }
+	table {
+		margin-top: 2rem;
+		border-spacing: 0;
+	}
 
-    th {
-        background-color: lightgrey;
-        padding: 0.3rem;
-    }
-    .cartImage {
-        padding: 1rem;
-        width: 120px;
-    }
-    .itemName {
-        width: 200px;
-        text-align: center;
-    }
+	th {
+		background-color: lightgrey;
+		padding: 0.3rem;
+	}
+	.cartImage {
+		padding: 1rem;
+		width: 120px;
+	}
+	.itemName {
+		width: 200px;
+		text-align: center;
+	}
 
-    .itemQuantity {
-        text-align: center;
-        width: 100px;
-    }
+	.itemQuantity {
+		text-align: center;
+		width: 100px;
+	}
 
-    .itemPrice {
-        text-align: center;
-        width: 100px;
-    }
+	.itemPrice {
+		text-align: center;
+		width: 100px;
+	}
 
-    .sumItem {
-        text-align: center;
-    }
+	.sumItem {
+		text-align: center;
+	}
 
-    img {
-        width: 100px;
+	img {
+		width: 100px;
 		object-fit: contain;
 	}
 
-    button {
+	button {
 		background-color: navy;
 		border: white 1px solid;
 		color: white;

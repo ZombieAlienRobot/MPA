@@ -1,6 +1,5 @@
 <script context="module" lang="ts">
 	import type { CartItem, Shoe } from 'src/types/types';
-	import { cartContents, itemsInCart } from './stores/cart';
 
 	export async function load({ fetch, params }) {
 		const { shoeName } = params;

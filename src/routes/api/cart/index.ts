@@ -3,6 +3,7 @@ import type { CartItem } from "src/types/types";
 export let cart = new Array<CartItem>();
 export let totalAmount = 0;
 export let priceSum = 0;
+export let persistSum = 0;
 
 export async function get() {
 
@@ -12,7 +13,8 @@ export async function get() {
         body: {
             cartItems: cart,
             totalAmount: totalAmount,
-            priceSum: priceSum
+            priceSum: priceSum,
+            persistSum: persistSum
         }
     }
 }
@@ -38,7 +40,8 @@ export async function post({ request }) {
 export async function del() {
     cart.splice(0, cart.length);
     totalAmount = 0;
-    
+    persistSum = priceSum;
+
     return {
         body: {
             cartItems: cart,

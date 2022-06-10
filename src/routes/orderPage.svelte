@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	export async function load({ fetch, params }) {
+	export async function load({ fetch }) {
 		const response = await fetch(`/api/cart`);
 
 		return {
@@ -13,7 +13,7 @@
 
 <script lang="ts">
     export let items;
-	export const priceSum = items.priceSum;
+	export const priceSum = items.persistSum;
 </script>
 
 <main>
