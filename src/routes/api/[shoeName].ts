@@ -7,7 +7,11 @@ export async function get({params}) {
         return shoe.shoeName === params.shoeName;
     })
 
-
+    if(findShoe == undefined) {
+        return {
+            status: 404
+        }
+    }
     const shoe = findShoe;
 
 

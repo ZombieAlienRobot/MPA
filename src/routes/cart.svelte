@@ -1,16 +1,26 @@
 <script context="module" lang="ts">
 	import { itemsInCart, cartContents, priceTotal } from './stores/cart';
 	import type { CartItem, Shoe } from 'src/types/types';
+
+	export async function load({ fetch, params }) {
+
+		const response = await fetch(`/api/cart`);
+		
+		return {
+			status: response.status,
+			props: {
+				cartContent: response.ok && (await response.json())
+				
+			}
+		};
+	}
 </script>
 
 <script lang="ts">
-
-	export let cartItems = $cartContents;
-	let priceSum = 0;
-	cartItems.forEach((element) => {
-		priceSum += element.shoe.price;
-	});
-	priceTotal.set(priceSum)
+	export let cartContent;
+	export const cartItemArray: CartItem[] = Array.from(cartContent.cartItems);
+	export const priceSum = cartContent.priceSum;
+	export const totalAmount = cartContent.totalAmount;
 
 	function emptyCart() {
 		cartContents.empyCart()
@@ -28,7 +38,7 @@
             <th>Summe Artikel</th>
 		</tr>
 
-		{#each cartItems as item}
+		{#each cartItemArray as item}
 			<tr>
 				<td class="cartImage"><img src="/shoes/{item.shoe.img}" alt="running shoe" /></td>
 				<td class="itemName"><b>{item.shoe.shoeName}, {item.size}</b></td>
@@ -38,7 +48,7 @@
 			</tr>
 		{/each}
 	</table>
-    <h3>Summe ({$itemsInCart} Artikel) {priceSum}€</h3>
+    <h3>Summe ({totalAmount} Artikel) {priceSum}€</h3>
     <a href="/orderPage"><button on:click={emptyCart}>Bestellung aufgeben</button></a>
 </main>
 

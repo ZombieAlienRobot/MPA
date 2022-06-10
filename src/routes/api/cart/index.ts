@@ -1,12 +1,18 @@
 import type { CartItem } from "src/types/types";
 
 export let cart = new Array<CartItem>();
+export let totalAmount = 0;
+export let priceSum = 0;
 
 export async function get() {
+
+    updateValues();
+
     return {
         body: {
             cartItems: cart,
-            itemsInCart: cart.length
+            totalAmount: totalAmount,
+            priceSum: priceSum
         }
     }
 }
@@ -21,6 +27,8 @@ export async function post({ request }) {
         cart[index].amount += cartItem.amount;
     }
 
+    updateValues()
+
     return {
         body: cart
     }
@@ -29,9 +37,22 @@ export async function post({ request }) {
 
 export async function del() {
     cart.splice(0, cart.length);
+    totalAmount = 0;
     
-
     return {
-        body: cart
+        body: {
+            cartItems: cart,
+            totalAmount: totalAmount,
+            priceSum: priceSum
+        }
     }
+}
+
+function updateValues() {
+    priceSum = 0;
+    totalAmount = 0;
+    cart.forEach((element) => {
+		priceSum += element.shoe.price * element.amount;
+        totalAmount += element.amount;
+	});
 }

@@ -1,23 +1,30 @@
 <script context="module" lang="ts">
+	export async function load({ fetch, params }) {
+		const response = await fetch(`/api/cart`);
+
+		return {
+			status: response.status,
+			props: {
+				items: response.ok && (await response.json())
+			}
+		};
+	}
 </script>
 
 <script lang="ts">
-import { priceTotal } from "./stores/cart";
-
-
-	
+    export let items;
+	export const priceSum = items.priceSum;
 </script>
 
-
 <main>
-    <h1>Vielen Dank für die Bestellung!</h1>
+	<h1>Vielen Dank für die Bestellung!</h1>
 
-    <p>Gesamter Bestellwert: {$priceTotal}€</p>
+	<p>Gesamter Bestellwert: {priceSum}€</p>
 </main>
 
 <style>
-    main {
-        text-align: center;
-        align-content: center;
-    }
+	main {
+		text-align: center;
+		align-content: center;
+	}
 </style>
