@@ -1,4 +1,4 @@
-import type { CartItem } from "src/types/types";
+import type { CartItem, Shoe } from "src/types/types";
 
 export let cart = new Array<CartItem>();
 export let totalAmount = 0;
@@ -20,7 +20,15 @@ export async function get() {
 }
 
 export async function post({ request }) {
-    const cartItem = await request.json();
+    const form = await request.formData()
+
+    const shoe: Shoe = JSON.parse(form.get('shoe'))
+
+    const cartItem:CartItem = {
+        shoe,
+        size: parseInt(form.get('sizeSelect')),
+        amount: parseInt(form.get('amountSelect'))
+    }
 
     if (!cart.find(element => element.shoe.shoeName === cartItem.shoe.shoeName && element.size === cartItem.size)) {
         cart.push(cartItem)
@@ -32,9 +40,11 @@ export async function post({ request }) {
     updateValues()
 
     return {
-        body: cart
-    }
-
+        status: 303,
+        headers: {
+            location: `/${shoe.shoeName}`
+        }
+    };
 }
 
 export async function del() {
@@ -43,10 +53,9 @@ export async function del() {
     persistSum = priceSum;
 
     return {
-        body: {
-            cartItems: cart,
-            totalAmount: totalAmount,
-            priceSum: priceSum
+        staus: 303,
+        headers: {
+            location: `/orderPage`
         }
     }
 }

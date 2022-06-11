@@ -11,6 +11,9 @@ const config = {
 		adapter: adapter(),
 		browser: {
 			router: false
+		},
+		methodOverride: {
+			allowed: ['DELETE']
 		}
 	},
 };

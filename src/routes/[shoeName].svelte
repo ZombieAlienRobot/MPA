@@ -20,15 +20,15 @@
 	let selectedAmount = 1;
 	let selectedShoeSize = shoe.shoesize[0];
 
-	async function addToCart() {
-		let selectedCartItem: CartItem = { shoe: shoe, amount: 0, size: 0 };
+	/* async function addToCart() {
+		let selectedCartItem: CartItem = { shoe, amount: 0, size: 0 };
 		selectedCartItem.amount = selectedAmount;
 		selectedCartItem.size = selectedShoeSize;
 		const submit = await fetch(`/api/cart`, {
 			method: 'POST',
 			body: JSON.stringify(selectedCartItem)
 		});
-	}
+	} */
 </script>
 
 <main>
@@ -39,7 +39,11 @@
 		<div class="productinfo">
 			<h2>{shoe.shoeName}</h2>
 			<h3>{shoe.price} €</h3>
-			<form on:submit={addToCart}>
+			<form 
+			action="api/cart"
+			method="post"
+			>
+				<input type="hidden" name="shoe" value={JSON.stringify(shoe)}>
 				<div class="select">
 					<label for="sizeSelect">Größe</label>
 					<select bind:value={selectedShoeSize} id="sizeSelect" name="sizeSelect">

@@ -48,7 +48,9 @@
 		{/each}
 	</table>
 	<h3>Summe ({totalAmount} Artikel) {priceSum}€</h3>
-	<a href="/orderPage"><button on:click={emptyCart}>Bestellung aufgeben</button></a>
+	<form action="api/cart?_method=DELETE" method="post">
+		<button type="button" on:click={emptyCart}>Bestellung aufgeben</button>
+	</form>
 </main>
 
 <style>
