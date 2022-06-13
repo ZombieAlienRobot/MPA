@@ -15,9 +15,6 @@ const config = {
 		methodOverride: {
 			allowed: ['DELETE']
 		},
-		prerender: {
-			default: true
-		}
 	},
 };
 
