@@ -18,13 +18,6 @@
 	export const cartItemArray: CartItem[] = Array.from(cartContent.cartItems);
 	export const priceSum = cartContent.priceSum;
 	export const totalAmount = cartContent.totalAmount;
-
-	async function emptyCart() {
-		const submit = await fetch(`/api/cart`, {
-			method: 'DELETE'
-		});
-		console.log(priceSum);
-	}
 </script>
 
 <main>
@@ -49,7 +42,7 @@
 	</table>
 	<h3>Summe ({totalAmount} Artikel) {priceSum}€</h3>
 	<form action="api/cart?_method=DELETE" method="post">
-		<button type="button" on:click={emptyCart}>Bestellung aufgeben</button>
+		<button type="submit">Bestellung aufgeben</button>
 	</form>
 </main>
 
